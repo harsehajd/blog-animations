@@ -88,10 +88,16 @@ export default function BrowserMeltdown() {
     }
   }, [count, meltdown, chaos, pushLog]);
 
+  const [isResetting, setIsResetting] = React.useState(false);
+  
   const reset = React.useCallback(() => {
+    setIsResetting(true);
+    // Clear everything immediately
     setInstances([]);
     setLogs([]);
     setMeltdown(false);
+    // Reset the flag after animation would complete
+    setTimeout(() => setIsResetting(false), 300);
   }, []);
 
   // subtle background “noise” grows with heat
@@ -108,77 +114,64 @@ export default function BrowserMeltdown() {
         backdropFilter: "blur(20px)",
       }}
     >
-      {/* Header / Controls */}
-      <div
-        style={{
-          display: "flex",
-          gap: 16,
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "20px 24px",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
-          background: "rgba(255,255,255,0.03)",
-          backdropFilter: "blur(10px)",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          <div style={{ fontWeight: 700, fontSize: 18, letterSpacing: -0.3 }}>
-            <span style={{ opacity: 0.95 }}>{count} browsers</span>
-          </div>
-          <div style={{ fontSize: 13, opacity: 0.6, fontWeight: 500 }}>
-            {danger ? "⚠️ warning: flaky territory" : "System stable"}
-          </div>
-        </div>
-
-        <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          <motion.button
-            onClick={addBrowser}
-            disabled={meltdown}
-            whileHover={meltdown ? {} : { scale: 1.02, y: -1 }}
-            whileTap={meltdown ? {} : { scale: 0.98 }}
-            style={{
-              padding: "12px 20px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.1)",
-              background: meltdown 
-                ? "rgba(255,255,255,0.05)" 
-                : "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.08) 100%)",
-              color: "#e6edf3",
-              cursor: meltdown ? "not-allowed" : "pointer",
-              fontWeight: 600,
-              fontSize: 14,
-              letterSpacing: -0.2,
-              boxShadow: meltdown ? "none" : "0 4px 12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.05) inset",
-            }}
-          >
-            Spin up browser
-          </motion.button>
-          <motion.button
-            onClick={reset}
-            whileHover={{ scale: 1.02, y: -1 }}
-            whileTap={{ scale: 0.98 }}
-            style={{
-              padding: "12px 20px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.08)",
-              background: "rgba(255,255,255,0.05)",
-              color: "rgba(230,237,243,0.9)",
-              cursor: "pointer",
-              fontWeight: 500,
-              fontSize: 14,
-              letterSpacing: -0.2,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-            }}
-          >
-            Reset
-          </motion.button>
-        </div>
-      </div>
-
       {/* Body */}
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", minHeight: 480 }}>
         {/* Scene */}
         <div style={{ position: "relative", padding: 24 }}>
+          {/* Controls */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+              <div style={{ fontWeight: 700, fontSize: 16, letterSpacing: -0.3, opacity: 0.95 }}>
+                {count} browsers
+              </div>
+              <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 500 }}>
+                {danger ? "⚠️ warning: flaky territory" : "System stable"}
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+              <motion.button
+                onClick={addBrowser}
+                disabled={meltdown}
+                whileHover={meltdown ? {} : { scale: 1.02, y: -1 }}
+                whileTap={meltdown ? {} : { scale: 0.98 }}
+                style={{
+                  padding: "10px 18px",
+                  borderRadius: 10,
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  background: meltdown 
+                    ? "rgba(255,255,255,0.05)" 
+                    : "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.08) 100%)",
+                  color: "#e6edf3",
+                  cursor: meltdown ? "not-allowed" : "pointer",
+                  fontWeight: 600,
+                  fontSize: 13,
+                  letterSpacing: -0.2,
+                  boxShadow: meltdown ? "none" : "0 4px 12px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.05) inset",
+                }}
+              >
+                Spin up browser
+              </motion.button>
+              <motion.button
+                onClick={reset}
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                style={{
+                  padding: "10px 18px",
+                  borderRadius: 10,
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "rgba(255,255,255,0.05)",
+                  color: "rgba(230,237,243,0.9)",
+                  cursor: "pointer",
+                  fontWeight: 500,
+                  fontSize: 13,
+                  letterSpacing: -0.2,
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                }}
+              >
+                Reset
+              </motion.button>
+            </div>
+          </div>
           {/* Heat meter */}
           <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
             <div style={{ fontSize: 13, opacity: 0.7, width: 80, fontWeight: 600, letterSpacing: -0.2 }}>CPU/RAM</div>
@@ -238,7 +231,7 @@ export default function BrowserMeltdown() {
 
             {/* Browser instances */}
             <AnimatePresence>
-              {instances.map((inst) => (
+              {!isResetting && instances.map((inst) => (
                 <BrowserTile
                   key={inst.id}
                   inst={inst}
@@ -346,8 +339,18 @@ function BrowserTile({
         y: 0,
         x: meltdown ? 0 : [0, jitter, -jitter, 0],
         rotate: meltdown ? 0 : [0, 0.4 + chaos, -0.4 - chaos, 0],
+        filter: `blur(${blur}px)`,
       }}
-      exit={{ opacity: 0, scale: 0.96 }}
+      exit={{ 
+        opacity: 0, 
+        scale: 0.6,
+        y: -10,
+        filter: "blur(0px)",
+        transition: {
+          duration: 0.2,
+          ease: "easeIn",
+        },
+      }}
       transition={{
         duration: meltdown ? 0.25 : 1.2,
         repeat: meltdown ? 0 : Infinity,
@@ -364,8 +367,8 @@ function BrowserTile({
         background: "linear-gradient(135deg, rgba(20,28,36,0.85) 0%, rgba(15,20,28,0.85) 100%)",
         boxShadow: "0 12px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05) inset",
         backdropFilter: "blur(12px)",
-        filter: `blur(${blur}px)`,
         overflow: "hidden",
+        pointerEvents: "auto",
       }}
     >
       <div
