@@ -19,7 +19,7 @@ export default function Page() {
         width: "min(100vw, calc(100vh * 16 / 9))",
         height: "min(100vh, calc(100vw * 9 / 16))",
         aspectRatio: "16/9",
-        padding: "0 16px",
+        padding: "15px 16px",
         boxSizing: "border-box",
         overflow: "hidden",
       }}>

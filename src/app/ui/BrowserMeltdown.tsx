@@ -42,6 +42,7 @@ export default function BrowserMeltdown() {
   const [instances, setInstances] = React.useState<BrowserInstance[]>([]);
   const [logs, setLogs] = React.useState<string[]>([]);
   const [meltdown, setMeltdown] = React.useState(false);
+  const logsRef = React.useRef<HTMLDivElement>(null);
 
   const count = instances.length;
 
@@ -57,6 +58,16 @@ export default function BrowserMeltdown() {
       return next.slice(-10);
     });
   }, []);
+
+  // Auto-scroll logs to bottom when they change
+  React.useEffect(() => {
+    if (logsRef.current) {
+      logsRef.current.scrollTo({
+        top: logsRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [logs]);
 
   const addBrowser = React.useCallback(() => {
     if (meltdown) return;
@@ -268,6 +279,7 @@ export default function BrowserMeltdown() {
         >
           <div style={{ fontWeight: 700, opacity: 0.95, fontSize: 16, letterSpacing: -0.3 }}>Logs</div>
           <div
+            ref={logsRef}
             style={{
               fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
               fontSize: 12.5,
@@ -473,7 +485,8 @@ function MeltdownOverlay() {
             inset: 0,
             display: "grid",
             placeItems: "center",
-            padding: 24,
+            padding: "16px",
+            overflow: "hidden",
           }}
         >
           <motion.div
@@ -481,25 +494,30 @@ function MeltdownOverlay() {
             animate={{ y: 0, scale: 1, opacity: 1 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
             style={{
-              width: "min(560px, 92vw)",
+              width: "min(560px, calc(100% - 32px))",
+              maxWidth: "100%",
+              maxHeight: "calc(100% - 32px)",
               borderRadius: 24,
               border: "1px solid rgba(255,255,255,0.12)",
               background: "linear-gradient(135deg, rgba(12,16,20,0.95) 0%, rgba(8,12,16,0.95) 100%)",
               boxShadow: "0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05) inset",
               backdropFilter: "blur(20px)",
               overflow: "hidden",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
             {/* Top bar */}
             <div
               style={{
-                padding: "20px 24px",
+                padding: "16px 20px",
                 borderBottom: "1px solid rgba(255,255,255,0.08)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 gap: 12,
                 background: "rgba(255,255,255,0.02)",
+                flexShrink: 0,
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -535,7 +553,13 @@ function MeltdownOverlay() {
             </div>
   
             {/* Body */}
-            <div style={{ padding: "24px", lineHeight: 1.7 }}>
+            <div style={{ 
+              padding: "16px 20px", 
+              lineHeight: 1.7,
+              overflow: "auto",
+              flex: 1,
+              minHeight: 0,
+            }}>
               <div style={{ fontSize: 15, opacity: 0.95, fontWeight: 600, marginBottom: 12, letterSpacing: -0.2 }}>
                 You can&apos;t host and manage that many browser
                 instances.
