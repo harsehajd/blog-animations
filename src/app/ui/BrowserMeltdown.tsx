@@ -560,15 +560,9 @@ function MeltdownOverlay() {
               flex: 1,
               minHeight: 0,
             }}>
-              <div style={{ fontSize: 15, opacity: 0.95, fontWeight: 600, marginBottom: 12, letterSpacing: -0.2 }}>
+              <div style={{ fontSize: 15, opacity: 0.95, fontWeight: 600, letterSpacing: -0.2 }}>
                 You can&apos;t host and manage that many browser
                 instances.
-              </div>
-  
-              <div style={{ fontSize: 13.5, opacity: 0.75, lineHeight: 1.7 }}>
-                Trust, the failure mode isn&apos;t your automation logic. The problem is CPU/RAM contention,
-                lifecycle churn, and a runtime that wasn&apos;t meant to be operated as
-                a fleet.
               </div>
             </div>
           </motion.div>
