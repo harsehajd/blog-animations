@@ -130,17 +130,17 @@ export default function BrowserMeltdown() {
       }}
     >
       {/* Body */}
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", flex: 1, minHeight: 0 }}>
+      <div className="browser-meltdown-grid">
         {/* Scene */}
-        <div style={{ position: "relative", padding: "16px", display: "flex", flexDirection: "column" }}>
+        <div className="browser-meltdown-scene" style={{ position: "relative", padding: "16px", display: "flex", flexDirection: "column", minHeight: 0, overflow: "hidden" }}>
           {/* Controls */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10, flexShrink: 0 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               <div style={{ fontWeight: 700, fontSize: 16, letterSpacing: -0.3, opacity: 0.95 }}>
                 {count} browsers
               </div>
               <div style={{ fontSize: 12, opacity: 0.6, fontWeight: 500 }}>
-                {danger ? "⚠️ warning: flaky territory" : "System stable"}
+                {danger ? "⚠️ warning" : "System stable"}
               </div>
             </div>
             <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
@@ -188,7 +188,7 @@ export default function BrowserMeltdown() {
             </div>
           </div>
           {/* Heat meter */}
-          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 10, flexShrink: 0 }}>
             <div style={{ fontSize: 13, opacity: 0.7, width: 80, fontWeight: 600, letterSpacing: -0.2 }}>CPU/RAM</div>
             <div
               style={{
@@ -267,8 +267,8 @@ export default function BrowserMeltdown() {
 
         {/* Logs */}
         <div
+          className="browser-meltdown-logs"
           style={{
-            borderLeft: "1px solid rgba(255,255,255,0.06)",
             padding: "16px",
             display: "flex",
             flexDirection: "column",

@@ -24,3 +24,36 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.browser-meltdown-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  flex: 1;
+  min-height: 0;
+}
+
+.browser-meltdown-logs {
+  border-left: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 768px) {
+  .browser-meltdown-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(250px, 65%) minmax(180px, 35%);
+    min-height: 0;
+  }
+  
+  .browser-meltdown-logs {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 12px !important;
+  }
+  
+  .browser-meltdown-scene {
+    padding: 12px !important;
+  }
+}
