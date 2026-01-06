@@ -106,20 +106,24 @@ export default function BrowserMeltdown() {
   return (
     <div
       style={{
+        width: "100%",
+        height: "100%",
         border: "1px solid rgba(255,255,255,0.06)",
         borderRadius: 24,
         overflow: "hidden",
         background: bg,
         boxShadow: "0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset",
         backdropFilter: "blur(20px)",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* Body */}
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", minHeight: 480 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", flex: 1, minHeight: 0 }}>
         {/* Scene */}
-        <div style={{ position: "relative", padding: 24 }}>
+        <div style={{ position: "relative", padding: "16px", display: "flex", flexDirection: "column" }}>
           {/* Controls */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               <div style={{ fontWeight: 700, fontSize: 16, letterSpacing: -0.3, opacity: 0.95 }}>
                 {count} browsers
@@ -173,7 +177,7 @@ export default function BrowserMeltdown() {
             </div>
           </div>
           {/* Heat meter */}
-          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
             <div style={{ fontSize: 13, opacity: 0.7, width: 80, fontWeight: 600, letterSpacing: -0.2 }}>CPU/RAM</div>
             <div
               style={{
@@ -217,7 +221,8 @@ export default function BrowserMeltdown() {
             }
             style={{
               position: "relative",
-              height: 400,
+              flex: 1,
+              minHeight: 0,
               borderRadius: 20,
               border: "1px solid rgba(255,255,255,0.08)",
               background: "linear-gradient(135deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.2) 100%)",
@@ -253,11 +258,12 @@ export default function BrowserMeltdown() {
         <div
           style={{
             borderLeft: "1px solid rgba(255,255,255,0.06)",
-            padding: 24,
+            padding: "16px",
             display: "flex",
             flexDirection: "column",
-            gap: 16,
+            gap: 12,
             background: "rgba(0,0,0,0.15)",
+            minHeight: 0,
           }}
         >
           <div style={{ fontWeight: 700, opacity: 0.95, fontSize: 16, letterSpacing: -0.3 }}>Logs</div>
